@@ -5,6 +5,7 @@ import authConfig from '../../config/auth.js';
 
 class SessionController {
   async store(request, response) {
+    console.log('PISTA 4: A requisição CHEGOU no SessionController.');
     const schema = Yup.object().shape({
       email: Yup.string().email().required(),
       password: Yup.string().required(),
@@ -34,9 +35,16 @@ class SessionController {
     const { id, name, admin } = user;
 
     // 1. GERAMOS O TOKEN UMA ÚNICA VEZ, com todas as informações necessárias
-    const token = jwt.sign({ id, admin }, authConfig.secret, {
+    const token = jwt.sign(
+      {
+        id: user.id,
+        name: user.name,
+        admin: user.admin 
+        },
+        authConfig.secret, {
       expiresIn: authConfig.expiresIn,
-    });
+    },
+  );
 
     // 2. RETORNAMOS os dados do utilizador e o token que acabámos de criar
     return response.json({

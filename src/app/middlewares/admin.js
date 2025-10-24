@@ -1,12 +1,14 @@
-const adminMiddleware = (request, response, next) => {
-  const isUseradmin = request.userIsAdmin;
+// src/app/middlewares/admin.js
 
-  if (!isUseradmin) {
-    return response.status(401).json();
+export default async (request, response, next) => {
+  // Ele lê a anotação feita pelo 'auth.js'
+  const isAdmin = request.userIsAdmin;
+
+  // Se 'isAdmin' for false (ou não existir), ele barra a entrada
+  if (!isAdmin) {
+    return response.status(401).json({ error: 'User is not an administrator.' });
   }
 
- 
-  return next(); 
+  // Se for 'true', ele deixa passar
+  return next();
 };
-
-export default adminMiddleware;

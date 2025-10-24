@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import configDatabase from '../config/database.js';
+import mongoose from 'mongoose';
 
 // Importe todos os seus models
 import User from '../app/models/User.js';
@@ -14,12 +15,26 @@ const models = [User, Product, Address, Order, OrderItem, Category];
 class Database {
   constructor() {
     this.init();
+    this.mongo();
     this.associate(); // Garantimos que a associação é chamada após a inicialização
   }
 
   init() {
     this.connection = new Sequelize(configDatabase);
     models.forEach((model) => model.init(this.connection));
+  }
+
+  mongo() {
+    this.mongooseConnection = mongoose.connect('mongodb://localhost:27017/qburguer')
+  }
+  mongo() {
+    this.mongooseConnection = mongoose.connect('mongodb://localhost:27017/qburguer')
+      .then(() => {
+        console.log('MongoDB connected successfully! ');
+      })
+      .catch((error) => {
+        console.error('MongoDB connection error: ', error);
+      });
   }
 
   // Este método agora contém TODA a lógica de relacionamento
