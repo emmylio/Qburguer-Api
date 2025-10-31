@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 import configDatabase from '../config/database.js';
 import mongoose from 'mongoose';
 
-// Importe todos os seus models
+
 import User from '../app/models/User.js';
 import Product from '../app/models/Product.js';
 import Address from '../app/models/Address.js';
@@ -16,7 +16,7 @@ class Database {
   constructor() {
     this.init();
     this.mongo();
-    this.associate(); // Garantimos que a associação é chamada após a inicialização
+    this.associate(); 
   }
 
   init() {
@@ -25,10 +25,7 @@ class Database {
   }
 
   mongo() {
-    this.mongooseConnection = mongoose.connect('mongodb://localhost:27017/qburguer')
-  }
-  mongo() {
-    this.mongooseConnection = mongoose.connect('mongodb://localhost:27017/qburguer')
+    this.mongooseConnection = mongoose.connect = mongoose.connect(process.env.MONGO_URL)
       .then(() => {
         console.log('MongoDB connected successfully! ');
       })
@@ -37,7 +34,7 @@ class Database {
       });
   }
 
-  // Este método agora contém TODA a lógica de relacionamento
+
   associate() {
     // Relacionamento User <-> Address
     User.hasMany(Address, { foreignKey: 'user_id', as: 'addresses' });
